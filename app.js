@@ -6,23 +6,27 @@ app.use(express.json());
 app.use(express.static("public"));
 
 
-app.get("/",function(request,response){
+app.get("/", (request, response) => {
 	response.sendFile(__dirname + "public/index.html");
 });
 
-app.get("/videoInfo",async function(request,response){
-	const videoURL = request.query.videoURL;
-	const info = await ytdl.getInfo(videoURL);
-	response.status(200).json(info);
+app.get("/videoInfo", async (request, response) => {
+	try {
+		const videoURL = request.query.videoURL;
+		const info = await ytdl.getInfo(videoURL);
+		response.status(200).json(info);
+	} catch (err) { 
+		console.log(err); 
+	}
 });
 
-app.get("/download",function(request,response){
+app.get("/download", (request, response) => {
 	const videoURL = request.query.videoURL;
 	const itag = request.query.itag;
-	response.header("Content-Disposition",'attachment;\ filename="video.mp4"');
-	ytdl(videoURL,{
+	response.header("Content-Disposition", 'attachment;\ filename="video.mp4"');
+	ytdl(videoURL, {
 		filter: format => format.itag == itag
 	}).pipe(response);
 });
 
-app.listen(process.env.PORT||5000);
+app.listen(process.env.PORT || 5000);

@@ -1,4 +1,4 @@
-const host = "https://ytmusicdownloader.herokuapp.com/";
+const host = "/";
 		document.querySelector("#get-video-info-btn").addEventListener("click",function(){
 			let videoURL = document.querySelector("#videoURL").value.trim();
 			if(videoURL.length == 0){
